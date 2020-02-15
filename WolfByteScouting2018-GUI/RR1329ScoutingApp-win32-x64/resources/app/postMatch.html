@@ -1,0 +1,190 @@
+<DOCTYPE html>
+<!--
+This is the html page for Teleop during the match.
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Post Match</title>
+  <link rel="stylesheet" type="text/css" href="./postMatchStyles.css"/>
+</head>
+  <body>
+    <script>
+    function initialization() {
+      localStorage.setItem("climbsToFirstLevelValue", -1);
+      localStorage.setItem("climbsToSecondLevelValue", -1);
+      localStorage.setItem("climbsToThirdLevelValue", -1);
+      localStorage.setItem("assistsAlliesClimbSecondLevelValue", -1);
+      localStorage.setItem("assistsAlliesClimbThirdLevelValue", -1);
+      localStorage.setItem("pickUpHatchesFromGroundValue", -1);
+      localStorage.setItem("pickUpCargoFromGroundValue", -1);
+      localStorage.setItem("commentsValue", "");
+    }
+    function signOut() {
+      localStorage.setItem("currentScoutName", "");
+      window.location.href = './enterScoutName.html';
+    }
+    function displayUserEntryAmount() {
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/user/getUser";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          var jsonResponse = JSON.parse(xhr.responseText);
+          var entryNumber = jsonResponse["submitted"];
+          var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+          alert(alertString);
+        }
+      }
+    }
+
+    function switchOnClick(clickedID) {
+      if(clickedID == "climbsToFirstLevelYes") {
+        localStorage.setItem("climbsToFirstLevelValue", 1);
+      }
+      else if(clickedID == "climbsToFirstLevelNo") {
+        localStorage.setItem("climbsToFirstLevelValue", 0);
+      }
+      else if(clickedID == "climbsToSecondLevelYes") {
+        localStorage.setItem("climbsToSecondLevelValue", 1);
+      }
+      else if(clickedID == "climbsToSecondLevelNo") {
+        localStorage.setItem("climbsToSecondLevelValue", 0);
+      }
+      else if(clickedID == "climbsToThirdLevelYes") {
+        localStorage.setItem("climbsToThirdLevelValue", 1);
+      }
+      else if(clickedID == "climbsToThirdLevelNo") {
+        localStorage.setItem("climbsToThirdLevelValue", 0);
+      }
+      else if(clickedID == "assistsAlliesClimbSecondLevelYes") {
+        localStorage.setItem("assistsAlliesClimbSecondLevelValue", 1);
+      }
+      else if(clickedID == "assistsAlliesClimbSecondLevelNo") {
+        localStorage.setItem("assistsAlliesClimbSecondLevelValue", 0);
+      }
+      else if(clickedID == "assistsAlliesClimbThirdLevelYes") {
+        localStorage.setItem("assistsAlliesClimbThirdLevelValue", 1);
+      }
+      else if(clickedID == "assistsAlliesClimbThirdLevelNo") {
+        localStorage.setItem("assistsAlliesClimbThirdLevelValue", 0);
+      }
+      else if(clickedID == "pickUpHatchesFromGroundYes") {
+        localStorage.setItem("pickUpHatchesFromGroundValue", 1);
+      }
+      else if(clickedID == "pickUpHatchesFromGroundNo") {
+        localStorage.setItem("pickUpHatchesFromGroundValue", 0);
+      }
+      else if(clickedID == "pickUpCargoFromGroundYes") {
+        localStorage.setItem("pickUpCargoFromGroundValue", 1);
+      }
+      else if(clickedID == "pickUpCargoFromGroundNo") {
+        localStorage.setItem("pickUpCargoFromGroundValue", 0);
+      }
+    }
+
+    function updateTextOnType(typedID) {
+      if(typedID == "commentsField") {
+        localStorage.setItem("commentsValue", document.getElementById("commentsField").value);
+      }
+    }
+
+    function submit() {
+      if(localStorage.getItem("climbsToFirstLevel") == -1) {
+        document.getElementById("title").innerHTML = "Please ensure all questions are answered and the comments field contains at least ten characters.";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/robot/addScoutingReport";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      jsonReq["robotNumber"] = localStorage.getItem("robotNumber");
+      jsonReq["movesInAutoValue"] = localStorage.getItem("movesInAutoValue");
+      jsonReq["crossesAutoLineValue"] = localStorage.getItem("crossesAutoLineValue");
+      jsonReq["placesHatchOnCargoShipAutoValue"] = localStorage.getItem("placesHatchOnCargoShipAutoValue");
+      jsonReq["placesCargoInCargoShipAutoValue"] = localStorage.getItem("placesCargoInCargoShipAutoValue");
+      jsonReq["placesHatchOnRocketAutoValue"] = localStorage.getItem("placesHatchOnRocketAutoValue");
+      jsonReq["placesCargoInRocketAutoValue"] = localStorage.getItem("placesCargoInRocketAutoValue");
+      jsonReq["hatchCargoshipTeleopValue"] = localStorage.getItem("hatchCargoshipTeleopValue");
+      jsonReq["cargoCargoshipTeleopValue"] = localStorage.getItem("cargoCargoshipTeleopValue");
+      jsonReq["hatchRocketTeleopValue"] = localStorage.getItem("hatchRocketTeleopValue");
+      jsonReq["cargoRocketTeleopValue"] = localStorage.getItem("cargoRocketTeleopValue");
+      jsonReq["startsOn1stValue"] = localStorage.getItem("startsOn1stValue");
+      jsonReq["startsOn2ndValue"] = localStorage.getItem("startsOn2ndValue");
+      jsonReq["crossesHabLineValue"] = localStorage.getItem("crossesHabLineValue");
+      jsonReq["drivesAutoAutoValue"] = localStorage.getItem("drivesAutoAutoValue");
+      jsonReq["drivesCameraAutoValue"] = localStorage.getItem("drivesCameraAutoValue");
+      jsonReq["moveInTeleopValue"] = localStorage.getItem("moveInTeleopValue");
+      jsonReq["defenseValue"] = localStorage.getItem("defenseValue");
+      jsonReq["climbsToFirstLevelValue"] = localStorage.getItem("climbsToFirstLevelValue");
+      jsonReq["climbsToSecondLevelValue"] = localStorage.getItem("climbsToSecondLevelValue");
+      jsonReq["climbsToThirdLevelValue"] = localStorage.getItem("climbsToThirdLevelValue");
+      jsonReq["assistsAlliesClimbSecondLevelValue"] = localStorage.getItem("assistsAlliesClimbSecondLevelValue");
+      jsonReq["assistsAlliesClimbThirdLevelValue"] = localStorage.getItem("assistsAlliesClimbThirdLevelValue");
+      jsonReq["pickUpHatchesFromGroundValue"] = localStorage.getItem("pickUpHatchesFromGroundValue");
+      jsonReq["pickUpCargoFromGroundValue"] = localStorage.getItem("pickUpCargoFromGroundValue");
+      jsonReq["commentsValue"] = localStorage.getItem("commentsValue");
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          window.location.href = './startScoutingSession.html'
+        }
+        else {
+          document.getElementById("title").innerHTML = "ERROR: Please see head scout for help";
+          document.getElementById("title").style.color = "#FFD700";
+        }
+      }
+    }
+    window.onload = initialization;
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Endgame</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+    <ul id="postMatchList">
+      <li class="postMatchListElement">Did the robot reach the first level?
+        <INPUT TYPE="radio" id="climbsToFirstLevelYes" name="climbsToFirstLevel" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="climbsToFirstLevelNo"  name="climbsToFirstLevel" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+      <li class="postMatchListElement">Did the robot climb to the second level?
+        <INPUT TYPE="radio" id="climbsToSecondLevelYes" name="climbsToSecondLevel" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="climbsToSecondLevelNo"  name="climbsToSecondLevel" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+      <li class="postMatchListElement">Did the robot climb to the third level?
+        <INPUT TYPE="radio" id="climbsToThirdLevelYes" name="climbsToThirdLevel" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="climbsToThirdLevelNo" name="climbsToThirdLevel" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+      <li class="postMatchListElement">Did the robot assist allies to climb to the second level?
+        <INPUT TYPE="radio" id="assistsAlliesClimbSecondLevelYes" name="assistsAlliesClimbSecondLevel" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="assistsAlliesClimbSecondLevelNo" name="assistsAlliesClimbSecondLevel" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+      <li class="postMatchListElement">Did the robot assist allies to climb to the third level?
+        <INPUT TYPE="radio" id="assistsAlliesClimbThirdLevelYes" name="assistsAlliesClimbThirdLevel" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="assistsAlliesClimbThirdLevelNo" name="assistsAlliesClimbThirdLevel" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+      <li class="postMatchListElement">Can the robot pick up hatches from the ground?
+        <INPUT TYPE="radio" id="pickUpHatchesFromGroundYes" name="pickUpHatchesFromGround" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="pickUpHatchesFromGroundNo" name="pickUpHatchesFromGround" onclick="switchOnClick(this.id);"><strong>No</strong>
+      <li class="postMatchListElement">Can the robot pick up cargo from the ground?
+        <INPUT TYPE="radio" id="pickUpCargoFromGroundYes" name="pickUpCargoFromGround" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="pickUpCargoFromGroundNo" name="pickUpCargoFromGround" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+    </ul>
+    <p id="commentsHeader">Please write some comments about the robot. Comments must be ten characters.</p>
+    <input type="text" name="comments" id="commentsField" onchange="updateTextOnType(this.id);">
+    <button type="button" id="submitButton" onclick="submit();">Submit</button>
+  </body>
+</html>

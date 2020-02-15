@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+This is the html page for the Autonomous period.
+-->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Auto</title>
+    <link rel="stylesheet" type="text/css" href="./stylesAuto.css"/>
+  </head>
+<!--hello-->
+  <body>
+    <script>
+    function initialization() {
+      localStorage.setItem("startsOn1stValue", -1);
+      localStorage.setItem("startsOn2ndValue", -1);
+      localStorage.setItem("crossesHabLineValue", -1);
+      localStorage.setItem("placesHatchOnCargoShipAutoValue", -1);
+      localStorage.setItem("placesCargoInCargoShipAutoValue", -1);
+      localStorage.setItem("placesHatchOnRocketAutoValue", -1);
+      localStorage.setItem("placesCargoInRocketAutoValue", -1);
+      localStorage.setItem("drivesAutoAutoValue", -1);
+      localStorage.setItem("drivesCameraAutoValue", -1);
+    }
+    function signOut() {
+      localStorage.setItem("currentScoutName", "");
+      window.location.href = './enterScoutName.html';
+    }
+    function displayUserEntryAmount() {
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/user/getUser";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          var jsonResponse = JSON.parse(xhr.responseText);
+          var entryNumber = jsonResponse["submitted"];
+          var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+          alert(alertString);
+        }
+      }
+    }
+    // I don't know if we will need this function next().
+    function next() {
+      if(localStorage.getItem("placesOnSwitchAutoValue") == 1 && localStorage.getItem("placesOnSwitchAmountValue") == "" || isNaN(localStorage.getItem("placesOnSwitchAmountValue"))) {
+        document.getElementById("title").innerHTML = "Please ensure text fields are filled (w/ numbers)";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("placesOnScaleAutoValue") == 1 && localStorage.getItem("placesOnScaleAmountValue") == "" || isNaN(localStorage.getItem("placesOnScaleAmountValue"))) {
+        document.getElementById("title").innerHTML = "Please ensure text fields are filled (w/ numbers)";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("placesInExchangeAutoValue") == 1 && localStorage.getItem("placesInExchangeAmountValue") == "" || isNaN(localStorage.getItem("placesInExchangeAmountValue"))) {
+        document.getElementById("title").innerHTML = "Please ensure text fields are filled (w/ numbers)";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("crossesHabLineValue") == -1 ) {
+        document.getElementById("title").innerHTML = "Please ensure all questions are answered.";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      window.location.href = './teleopDuring.html'
+    }
+    function switchOnClick(clickedID) {
+      if(clickedID == "crossesHabLineYes"){
+        localStorage.setItem("crossesHabLineValue", 1)
+      }
+      else if(clickedID == "crossesHabLineNo") {
+        localStorage.setItem("crossesHabLineValue", 0);
+      }
+      else if(clickedID == "placesHatchOnCargoShipAutoYes") {
+        localStorage.setItem("placesHatchOnCargoShipAutoValue", 1);
+      }
+      else if(clickedID == "placesHatchOnCargoShipAutoNo") {
+        localStorage.setItem("placesHatchOnCargoShipAutoValue", 0);
+      }
+      else if(clickedID == "startsOn1st") {
+        localStorage.setItem("startsOn1stValue", 1);
+        localStorage.setItem("startsOn2ndValue", 0);
+      }
+      else if(clickedID == "startsOn2nd") {
+        localStorage.setItem("startsOn1stValue", 0);
+        localStorage.setItem("startsOn2ndValue", 1);
+      }
+      else if(clickedID == "placesCargoInCargoShipAutoYes") {
+        localStorage.setItem("placesCargoInCargoShipAutoValue", 1);
+      }
+      else if(clickedID == "placesCargoInCargoShipAutoNo") {
+        localStorage.setItem("placesCargoInCargoShipAutoValue", 0);
+      }
+      else if(clickedID== "placesHatchOnRocketAutoYes") {
+        localStorage.setItem("placesHatchOnRocketAutoValue", 1);
+      }
+      else if(clickedID == "placesHatchOnRocketAutoNo") {
+        localStorage.setItem("placesHatchOnRocketAutoValue", 0);
+      }
+      else if(clickedID == "drivesCameraAuto"){
+        localStorage.setItem("drivesCameraAutoValue", 1);
+        localStorage.setItem("drivesAutoAutoValue", 0);
+      }
+      else if(clickedID == "drivesAutoAuto"){
+        localStorage.setItem("drivesAutoAutoValue", 1);
+        localStorage.setItem("drivesCameraAutoValue", 0);
+      }
+      else if(clickedID == "placesCargoInRocketAutoYes"){
+        localStorage.setItem("placesCargoInRocketAutoValue", 1);
+      }
+      else if(clickedID== "placesCargoInRocketAutoNo") {
+        localStorage.setItem("placesCargoInRocketAutoValue", 0);
+      }
+    }
+    function updateTextOnType(typedID) {
+      if(typedID == "placesOnSwitchAutoField") {
+        localStorage.setItem("placesOnSwitchAmountValue", document.getElementById("placesOnSwitchAutoField").value);
+      }
+      else if (typedID == "placesInCargoAutoField"){
+        localStorage.setItem("placesInCargoAutoValue", document.getElementById("placesInCargoAutoField").value);
+      }
+      else if(typedID == "placesOnScaleAutoField") {
+        localStorage.setItem("placesOnScaleAmountValue", document.getElementById("placesOnScaleAutoField").value);
+      }
+      else if(typedID == "placesInExchangeAutoField") {
+        localStorage.setItem("placesInExchangeAmountValue", document.getElementById("placesInExchangeAutoField").value);
+      }
+    }
+    window.onload = initialization;
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Autonomous Period</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+    <ul id="autoList">
+      <li class="autoListElement">Did the Robot cross the Hab Line?
+        <INPUT TYPE="radio" id="crossesHabLineYes" name="crossesHabLine" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="crossesHabLineNo" name="crossesHabLine" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+
+      <li class="autoListElement">Did the robot start on 1st or 2nd level?
+        <INPUT TYPE="radio" id="startsOn1st" name="startOn" onclick="switchOnClick(this.id);"><strong>1st</strong>
+        <INPUT TYPE="radio" id="startsOn2nd" name="startOn" onclick="switchOnClick(this.id);"><strong>2nd</strong>
+      </li>
+
+      <li class="autoListElement">Did the robot place hatch on cargo ship?
+        <INPUT TYPE="radio" id="placesHatchOnCargoShipAutoYes" name="placesHatchOnCargoShipAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesHatchOnCargoShipAutoNo" name="placesHatchOnCargoShipAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+        </li>
+
+      <li class="autoListElement">Did the robot place cargo in cargo ship?
+        <INPUT TYPE="radio" id="placesCargoInCargoShipAutoYes" name="placesCargoInCargoShipAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesCargoInCargoShipAutoNo"  name="placesCargoInCargoShipAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+        </li>
+
+      <li class="autoListElement">Does the robot place hatch on any part of the rocket?
+        <INPUT TYPE="radio" id="placesHatchOnRocketAutoYes" name="placesHatchOnRocketAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesHatchOnRocketAutoNo"  name="placesHatchOnRocketAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+      </li>
+
+      <li class="autoListElement">Does the robot place cargo on any part of the rocket?
+        <INPUT TYPE="radio" id="placesCargoInRocketAutoYes" name="placesCargoInRocketAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesCargoInRocketAutoNo"  name="placesCargoInRocketAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+      </li>
+      <li class="autoListElement">Does driver navigate robot via camera or auto?
+        <INPUT TYPE="radio" id="drivesCameraAuto" name="drivesInAuto" onclick="switchOnClick(this.id);"><strong>Camera</strong>
+        <INPUT TYPE="radio" id="drivesAutoAuto" name="drivesInAuto" onclick="switchOnClick(this.id);"><strong>Auto</strong>
+        </li>
+      </ul>
+    </ul>
+
+      <button type="button" id="nextButton" onclick="next();">Next</button>
+
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+This is the page that appears just after a scout signs in and when they decide
+to start another scouting report. This page requires the entry of a robot number
+and begins to store data in the local storage, which will ultimately be uploaded
+upon completion. *Note* (for all pages): local storage will allow persistence of
+variables accross the program so long as the tab stays open. If the program
+crashes, all progress on the current report will be lost.
+-->
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Start Scouting Session</title>
+    <link rel="stylesheet" type="text/css" href="./stylesStartScoutingSession.css"/>
+  </head>
+
+  <body>
+    <script>
+      function signOut() {
+        localStorage.setItem("currentScoutName", "");
+        window.location.href = './enterScoutName.html';
+      }
+      function displayUserEntryAmount() {
+        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+        var url = "http://localhost:3000/user/getUser";
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        var jsonReq = {};
+        jsonReq["username"] = localStorage.getItem("currentScoutName");
+        xhr.send(JSON.stringify(jsonReq));
+        xhr.onreadystatechange = proccessRequest;
+        function proccessRequest(e) {
+          if(xhr.status == 200) {
+            var jsonResponse = JSON.parse(xhr.responseText);
+            var entryNumber = jsonResponse["submitted"];
+            var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+            alert(alertString);
+          }
+        }
+      }
+      function proceedToMainMatch() {
+        if(document.getElementById("robotNumberField").value == "") {
+          document.getElementById("topHeader").innerHTML = "Please enter a robot number into the text field.";
+          document.getElementById("topHeader").style.color = "#FFD700";
+        }
+        else if(isNaN(document.getElementById("robotNumberField").value)) {
+          document.getElementById("topHeader").innerHTML = "Please ensure that your input is only numbers.";
+          document.getElementById("topHeader").style.color = "#FFD700";
+        }
+
+        else {
+          localStorage.setItem("robotNumber", document.getElementById("robotNumberField").value);
+          window.location.href = './auto.html'
+        }
+      }
+
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Start Scouting Session</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+    <p id="topHeader">Enter the team number of the robot you are scouting.</p>
+    <input type="text" name="number" id="robotNumberField">
+    <button type="button" id="submitButton" onclick="proceedToMainMatch();">Submit</button>
+
+
+  </body>
+</html>

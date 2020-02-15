@@ -1,0 +1,42 @@
+<html>
+
+!--This is a comment. Comments are not displayed in the browser-->
+
+<ul id="navbar">
+  <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+  <li id="title">Autonomous Period</li>
+  <li id="signOut" onclick="signOut();">Sign Out</li>
+</ul>
+<ul id="autoList">
+  <li class="autoListElement">Did the robot move at all during Auto?
+    <INPUT TYPE="radio" id="movesInAutoYes" name="movesInAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+    <INPUT TYPE="radio" id="movesInAutoNo" name="movesInAuto" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+
+  <li class="autoListElement">Did the robot reach a defense?
+    <INPUT TYPE="radio" id="reachDefenseAutoYes" name="crossesAutoLine" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+    <INPUT TYPE="radio" id="reachDefenseAutoNo" name="crossesAutoLine" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+
+  <li class="autoListElement">Did the robot breach a defense?
+    <INPUT TYPE="radio" id="breachDefenseAutoYes" name="placesOnSwitchAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+    <INPUT TYPE="radio" id="breachDefenseAutoNo" name="placesOnSwitchAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+    How Many?
+    <input type="text" id="placesOnSwitchAutoField" onchange="updateTextOnType(this.id);">
+    </li>
+
+  <li class="autoListElement">Did the robot shoot a boulder in the high goal?
+    <INPUT TYPE="radio" id="highGoalAutoYes" name="highGoalAutoNo" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+    <INPUT TYPE="radio" id="highGoalAutoNo" name="highGoalAutoNo" onclick="switchOnClick(this.id);"><strong>No</strong>
+    How Many?
+    <input type="text" id="placesOnScaleAutoField" onchange="updateTextOnType(this.id);">
+  </li>
+
+  <li class="autoListElement">Did the robot shoot a boulder in the low goal?
+    <INPUT TYPE="radio" id="lowGoalAutoYes" name="lowGoalAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+    <INPUT TYPE="radio" id="lowGoalAutoNo" name="lowGoalAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+    How Many?
+    <input type="text" id="placesInExchangeAutoField" onchange="updateTextOnType(this.id);">
+</ul>
+
+  <button type="button" id="nextButton" onclick="next();">Next</button>
+
+</html>

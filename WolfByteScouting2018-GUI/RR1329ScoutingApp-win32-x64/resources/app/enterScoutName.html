@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+This is the first page that the user sees when they open the program. This only
+contains a field to enter the scout's name. After the name is entered, a
+request is made to the connected node.js server (seen in variable 'url')
+-->
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Enter Scout Name</title>
+    <link rel="stylesheet" type="text/css" href="./stylesEnterScoutName.css"/>
+  </head>
+  <body>
+
+
+
+    <script>
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    function checkScoutName() {
+      document.getElementById("topHeader").style.color = "#FFFFFF"
+      document.getElementById("topHeader").innerHTML = "...";
+      var url = "http://localhost:3000/user/signIn";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      if(document.getElementById("nameField").value == "") {
+        document.getElementById("topHeader").innerHTML = "Please enter your name into the text field.";
+        document.getElementById("topHeader").style.color = "#FFD700";
+      }
+      else {
+        jsonReq["username"] = document.getElementById("nameField").value;
+        xhr.send(JSON.stringify(jsonReq));
+        xhr.onreadystatechange = proccessRequest;
+        function proccessRequest(e) {
+          if(xhr.status == 200) {
+            document.getElementById("topHeader").style.color = "#FFFFFF"
+            localStorage.setItem("currentScoutName", document.getElementById("nameField").value);
+            window.location.href = './startScoutingSession.html'
+
+          }
+          else if(xhr.status == 406) {
+            document.getElementById("topHeader").innerHTML = "This name is not registered in the database. Please try again.";
+            document.getElementById("topHeader").style.color = "#FFD700"
+          }
+        }
+      }
+    }
+    </script>
+
+
+
+    <p id="topHeader">Welcome! Please type your name to sign into the server...</p>
+    <input type="text" name="name" id="nameField">
+    <button type="button" id="submitButton" onclick="checkScoutName()">Submit</button>
+  </body>
+</html>

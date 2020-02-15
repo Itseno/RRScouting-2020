@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+This is the html page for Teleop during the match.
+-->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Teleop During</title>
+    <link rel="stylesheet" type="text/css" href="./teleopDuringStyles.css"/>
+  </head>
+  <body>
+    <script>
+      function initialization() {
+        localStorage.setItem("moveInTeleopValue", -1);
+        localStorage.setItem("hatchCargoshipTeleopValue", 0);
+        localStorage.setItem("cargoCargoshipTeleopValue", 0);
+        localStorage.setItem("hatchRocketTeleopValue", 0);
+        localStorage.setItem("cargoRocketTeleopValue", 0);
+        localStorage.setItem("defenseValue", -1);
+      }
+      function signOut() {
+        localStorage.setItem("currentScoutName", "");
+        window.location.href = './enterScoutName.html';
+      }
+      function displayUserEntryAmount() {
+        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+        var url = "http://localhost:3000/user/getUser";
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        var jsonReq = {};
+        jsonReq["username"] = localStorage.getItem("currentScoutName");
+        xhr.send(JSON.stringify(jsonReq));
+        xhr.onreadystatechange = proccessRequest;
+        function proccessRequest(e) {
+          if(xhr.status == 200) {
+            var jsonResponse = JSON.parse(xhr.responseText);
+            var entryNumber = jsonResponse["submitted"];
+            var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+            alert(alertString);
+          }
+        }
+      }
+
+      function switchOnClick(clickedID) {
+        if(clickedID == "cargoRocketTeleopMinus") {
+          if(localStorage.getItem("cargoRocketTeleopValue") > 0) {
+            localStorage.setItem("cargoRocketTeleopValue", parseInt(localStorage.getItem("cargoRocketTeleopValue")) - 1);
+            document.getElementById("cargoRocketTeleopCounter").innerHTML = localStorage.getItem("cargoRocketTeleopValue");
+          }
+        }
+        else if(clickedID == "cargoRocketTeleopPlus") {
+          localStorage.setItem("cargoRocketTeleopValue", parseInt(localStorage.getItem("cargoRocketTeleopValue")) + 1);
+          document.getElementById("cargoRocketTeleopCounter").innerHTML = localStorage.getItem("cargoRocketTeleopValue");
+        }
+        else if(clickedID == "cargoCargoshipTeleopMinus") {
+          if(localStorage.getItem("cargoCargoshipTeleopValue") > 0) {
+            localStorage.setItem("cargoCargoshipTeleopValue", parseInt(localStorage.getItem("cargoCargoshipTeleopValue")) - 1);
+            document.getElementById("cargoCargoshipTeleopCounter").innerHTML = localStorage.getItem("cargoCargoshipTeleopValue");
+          }
+        }
+        else if(clickedID == "moveInTeleopYes") {
+          localStorage.setItem("moveInTeleopValue", 1);
+        }
+        else if(clickedID == "moveInTeleopNo") {
+          localStorage.setItem("moveInTeleopValue", 0);
+        }
+        else if(clickedID == "defenseYes"){
+          localStorage.setItem("defenseValue", 1)
+        }
+        else if(clickedID == "defenseNo"){
+          localStorage.setItem("defenseValue", 0)
+        }
+        else if(clickedID == "cargoCargoshipTeleopPlus") {
+          localStorage.setItem("cargoCargoshipTeleopValue", parseInt(localStorage.getItem("cargoCargoshipTeleopValue")) + 1);
+          document.getElementById("cargoCargoshipTeleopCounter").innerHTML = localStorage.getItem("cargoCargoshipTeleopValue");
+        }
+        else if(clickedID == "hatchCargoshipTeleopMinus") {
+          if(localStorage.getItem("hatchCargoshipTeleopValue") > 0) {
+            localStorage.setItem("hatchCargoshipTeleopValue", parseInt(localStorage.getItem("hatchCargoshipTeleopValue")) - 1);
+            document.getElementById("hatchCargoshipTeleopCounter").innerHTML = localStorage.getItem("hatchCargoshipTeleopValue");
+          }
+        }
+        else if(clickedID == "hatchCargoshipTeleopPlus") {
+          localStorage.setItem("hatchCargoshipTeleopValue", parseInt(localStorage.getItem("hatchCargoshipTeleopValue")) + 1);
+          document.getElementById("hatchCargoshipTeleopCounter").innerHTML = localStorage.getItem("hatchCargoshipTeleopValue");
+        }
+        else if(clickedID == "hatchRocketTeleopMinus") {
+          if(localStorage.getItem("hatchRocketTeleopValue") > 0) {
+            localStorage.setItem("hatchRocketTeleopValue", parseInt(localStorage.getItem("hatchRocketTeleopValue")) - 1);
+            document.getElementById("hatchRocketTeleopCounter").innerHTML = localStorage.getItem("hatchRocketTeleopValue");
+          }
+        }
+        else if(clickedID == "hatchRocketTeleopPlus") {
+          localStorage.setItem("hatchRocketTeleopValue", parseInt(localStorage.getItem("hatchRocketTeleopValue")) + 1);
+          document.getElementById("hatchRocketTeleopCounter").innerHTML = localStorage.getItem("hatchRocketTeleopValue");
+        }
+      }
+// This function next() will probably need to be taken out.
+      function next() {
+        if(localStorage.getItem("movesInTeleopValue") == -1 || localStorage.getItem("getsOnPlatformValue") == -1 || localStorage.getItem("climbedBarValue") == -1 || localStorage.getItem("climbedOtherRobotValue") == -1 || localStorage.getItem("supportedOtherRobotWhileClimbedValue") == -1 || localStorage.getItem("supportedOtherRobotNotClimbedValue") == -1) {
+          document.getElementById("title").innerHTML = "Please ensure all questions are answered.";
+          document.getElementById("title").style.color = "#FFD700";
+          return;
+        }
+        window.location.href = './postMatch.html'
+      }
+
+    window.onload = initialization;
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Teleoperated Period</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+    <ul id="teleopList">
+      <li class="teleopListElement">Does the robot move during teleop?
+        <INPUT TYPE="radio" id="moveInTeleopYes" name="moveInTeleop" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="moveInTeleopNo" name="moveInTeleop" onclick="switchOnClick(this.id);"><strong>No</strong>
+      <li class="teleopListElement">How many hatches did the robot place on the cargo ship?
+        <button type="button" id="hatchCargoshipTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="hatchCargoshipTeleopCounter">0</p>
+        <button type="button" id="hatchCargoshipTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+      <li class="teleopListElement">How much cargo did the robot place in the cargo ship during Teleop?
+        <!--this needs to be fixed-->
+        <button type="button" id="cargoCargoshipTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="cargoCargoshipTeleopCounter">0</p>
+        <button type="button" id="cargoCargoshipTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+      <li class="teleopListElement">How many hatches did the robot place on the rocket during Teleop?
+        <!--this needs to be fixed-->
+        <button type="button" id="hatchRocketTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="hatchRocketTeleopCounter">0</p>
+        <button type="button" id="hatchRocketTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+<!-- Id;s need to be fixed for this one.-->
+      <li class="teleopListElement">How much cargo did the robot place in the rocket during Teleop?
+        <!--this needs to be fixed-->
+        <button type="button" id="cargoRocketTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="cargoRocketTeleopCounter">0</p>
+        <button type="button" id="cargoRocketTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+
+
+      <li class="teleopListElement">Did the robot play any defense?
+        <INPUT TYPE="radio" id="defenseYes" name="defense" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="defenseNo" name="defense" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      </li>
+    </ul>
+    <button type="button" id="nextButton" onclick="next();">Next</button>
+  </body>
+
+  </html>
