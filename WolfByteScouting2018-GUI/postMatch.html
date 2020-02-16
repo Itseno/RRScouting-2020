@@ -11,20 +11,17 @@ This is the html page for Teleop during the match.
   <body>
     <script>
     function initialization() {
-      localStorage.setItem("climbsToFirstLevelValue", -1);
-      localStorage.setItem("climbsToSecondLevelValue", -1);
-      localStorage.setItem("climbsToThirdLevelValue", -1);
-      localStorage.setItem("noClimbValue", -1);
-      localStorage.setItem("assistsAlliesClimbSecondLevelValue", -1);
-      localStorage.setItem("assistsAlliesClimbThirdLevelValue", -1);
-      localStorage.setItem("pickUpHatchesFromGroundValue", -1);
-      localStorage.setItem("pickUpCargoFromGroundValue", -1);
-      localStorage.setItem("commentsValue", "");
-      localStorage.setItem("defenseValue", -1);
+      localStorage.setItem("defendValue", -1);
+      localStorage.setItem("fuelFromGroundValue", -1);
+      localStorage.setItem("climbValue", -1);
       localStorage.setItem("attemptValue", -1);
-      localStorage.setItem("DriverSkillValue", 0);
-      localStorage.setItem("RobotEffValue", 0);
-      localStorage.setItem("RobotSpeedValue", 0);
+      localStorage.setItem("keptClimbLevelValue", -1);
+      localStorage.setItem("carryRobotValue", -1);
+      localStorage.setItem("drivesTrenchValue", -1);
+      localStorage.setItem("DriverSkillValue", 1);
+      localStorage.setItem("RobotEffValue", 1);
+      localStorage.setItem("RobotSpeedValue", 1);
+      localStorage.setItem("commentsValue", "");
     }
     function signOut() {
       localStorage.setItem("currentScoutName", "");
@@ -51,86 +48,83 @@ This is the html page for Teleop during the match.
     }
 
     function switchOnClick(clickedID) {
-      if(clickedID == "climbsToFirstLevel") {
-        localStorage.setItem("climbsToFirstLevelValue", 1);
-        localStorage.setItem("climbsToSecondLevelValue", 0);
-        localStorage.setItem("climbsToThirdLevelValue", 0);
-        localStorage.setItem("noClimbValue", 0);
+      if(clickedID == "defendYes"){
+        localStorage.setItem("defendValue", 1);
       }
-      else if(clickedID == "climbsToSecondLevel") {
-        localStorage.setItem("climbsToFirstLevelValue", 0);
-        localStorage.setItem("climbsToSecondLevelValue", 1);
-        localStorage.setItem("climbsToThirdLevelValue", 0);
-        localStorage.setItem("noClimbValue", 0);
-      }
-      else if(clickedID == "climbsToThirdLevel") {
-        localStorage.setItem("climbsToFirstLevelValue", 0);
-        localStorage.setItem("climbsToSecondLevelValue", 0);
-        localStorage.setItem("climbsToThirdLevelValue", 1);
-        localStorage.setItem("noClimbValue", 0);
-      }
-      else if(clickedID == "noClimb") {
-        localStorage.setItem("climbsToFirstLevelValue", 0);
-        localStorage.setItem("climbsToSecondLevelValue", 0);
-        localStorage.setItem("climbsToThirdLevelValue", 0);
-        localStorage.setItem("noClimbValue", 1);
-      }
-      else if(clickedID == "defenseYes"){
-        localStorage.setItem("defenseValue", 1);
-      }
-      else if(clickedID == "defenseNo"){
-        localStorage.setItem("defenseValue", 0);
-      }
-      else if(clickedID == "attemptNo"){
-        localStorage.setItem("attemptValue", 0);
+      else if(clickedID == "defendNo"){
+        localStorage.setItem("defendValue", 0);
       }
       else if(clickedID == "attemptYes"){
         localStorage.setItem("attemptValue", 1);
       }
-      else if(clickedID == "assistsAlliesClimbThirdLevelNo") {
-        localStorage.setItem("assistsAlliesClimbThirdLevelValue", 0);
+      else if(clickedID == "attemptNo"){
+        localStorage.setItem("attemptValue", 0);
       }
-      else if(clickedID == "pickUpHatchesFromGroundYes") {
-        localStorage.setItem("pickUpHatchesFromGroundValue", 1);
+      else if(clickedID == "fuelFromGroundYes"){
+        localStorage.setItem("fuelFromGroundValue", 1);
       }
-      else if(clickedID == "pickUpHatchesFromGroundNo") {
-        localStorage.setItem("pickUpHatchesFromGroundValue", 0);
+      else if(clickedID == "fuelFromGroundNo"){
+        localStorage.setItem("fuelFromGroundValue", 0);
       }
-      else if(clickedID == "pickUpCargoFromGroundYes") {
-        localStorage.setItem("pickUpCargoFromGroundValue", 1);
+      else if(clickedID == "climbYes"){
+        localStorage.setItem("climbValue", 1);
       }
-      else if(clickedID == "pickUpCargoFromGroundNo") {
-        localStorage.setItem("pickUpCargoFromGroundValue", 0);
+      else if(clickedID == "climbNo"){
+        localStorage.setItem("climbValue", 0);
+      }
+      else if(clickedID == "keptClimbLevelYes"){
+        localStorage.setItem("keptClimbLevelValue", 1);
+      }
+      else if(clickedID == "keptClimbLevelNo"){
+        localStorage.setItem("keptClimbLevelValue", 0);
+      }
+      else if(clickedID == "carryRobotYes"){
+        localStorage.setItem("carryRobotValue", 1);
+      }
+      else if(clickedID == "carryRobotNo"){
+        localStorage.setItem("carryRobotValue", 0);
+      }
+      else if(clickedID == "drivesTrenchYes"){
+        localStorage.setItem("drivesTrenchValue", 1);
+      }
+      else if(clickedID == "drivesTrenchNo"){
+        localStorage.setItem("drivesTrenchValue", 0);
       }
       else if(clickedID == "DriverSkillMinus") {
-        if(localStorage.getItem("DriverSkillValue") > 0) {
+        if(localStorage.getItem("DriverSkillValue") > 1) {
           localStorage.setItem("DriverSkillValue", parseInt(localStorage.getItem("DriverSkillValue")) - 1);
           document.getElementById("DriverSkillCounter").innerHTML = localStorage.getItem("DriverSkillValue");
         }
       }
       else if(clickedID == "DriverSkillPlus") {
-        localStorage.setItem("DriverSkillValue", parseInt(localStorage.getItem("DriverSkillValue")) + 1);
-        document.getElementById("DriverSkillCounter").innerHTML = localStorage.getItem("DriverSkillValue");
+        if(localStorage.getItem("RobotSpeedValue")){
+          localStorage.setItem("DriverSkillValue", parseInt(localStorage.getItem("DriverSkillValue")) + 1);
+          document.getElementById("DriverSkillCounter").innerHTML = localStorage.getItem("DriverSkillValue");
+        }
       }
       else if(clickedID == "RobotEffMinus") {
-        if(localStorage.getItem("RobotEffValue") > 0) {
+        if(localStorage.getItem("RobotEffValue") > 1) {
           localStorage.setItem("RobotEffValue", parseInt(localStorage.getItem("RobotEffValue")) - 1);
           document.getElementById("RobotEffCounter").innerHTML = localStorage.getItem("RobotEffValue");
         }
       }
       else if(clickedID == "RobotEffPlus") {
+        if(localStorage.getItem("RobotSpeedValue")){
         localStorage.setItem("RobotEffValue", parseInt(localStorage.getItem("RobotEffValue")) + 1);
         document.getElementById("RobotEffCounter").innerHTML = localStorage.getItem("RobotEffValue");
       }
+    }
       else if(clickedID == "RobotSpeedMinus") {
-        if(localStorage.getItem("RobotSpeedValue") > 0) {
+        if(localStorage.getItem("RobotSpeedValue") > 1) {
           localStorage.setItem("RobotSpeedValue", parseInt(localStorage.getItem("RobotSpeedValue")) - 1);
           document.getElementById("RobotSpeedCounter").innerHTML = localStorage.getItem("RobotSpeedValue");
         }
       }
       else if(clickedID == "RobotSpeedPlus") {
+        if(localStorage.getItem("RobotSpeedValue")){
         localStorage.setItem("RobotSpeedValue", parseInt(localStorage.getItem("RobotSpeedValue")) + 1);
         document.getElementById("RobotSpeedCounter").innerHTML = localStorage.getItem("RobotSpeedValue");
+      }
       }
     }
 
@@ -155,30 +149,34 @@ This is the html page for Teleop during the match.
       var jsonReq = {};
       jsonReq["username"] = localStorage.getItem("currentScoutName");
       jsonReq["robotNumber"] = localStorage.getItem("robotNumber");
-      jsonReq["movesInAutoValue"] = localStorage.getItem("movesInAutoValue");
-      jsonReq["crossesAutoLineValue"] = localStorage.getItem("crossesAutoLineValue");
-      jsonReq["placesHatchOnCargoShipAutoValue"] = localStorage.getItem("placesHatchOnCargoShipAutoValue");
-      jsonReq["placesCargoInCargoShipAutoValue"] = localStorage.getItem("placesCargoInCargoShipAutoValue");
-      jsonReq["placesHatchOnRocketAutoValue"] = localStorage.getItem("placesHatchOnRocketAutoValue");
-      jsonReq["placesCargoInRocketAutoValue"] = localStorage.getItem("placesCargoInRocketAutoValue");
-      jsonReq["hatchCargoshipTeleopValue"] = localStorage.getItem("hatchCargoshipTeleopValue");
-      jsonReq["cargoCargoshipTeleopValue"] = localStorage.getItem("cargoCargoshipTeleopValue");
-      jsonReq["hatchRocketTeleopValue"] = localStorage.getItem("hatchRocketTeleopValue");
-      jsonReq["cargoRocketTeleopValue"] = localStorage.getItem("cargoRocketTeleopValue");
-      jsonReq["startsOn1stValue"] = localStorage.getItem("startsOn1stValue");
-      jsonReq["startsOn2ndValue"] = localStorage.getItem("startsOn2ndValue");
-      jsonReq["crossesHabLineValue"] = localStorage.getItem("crossesHabLineValue");
-      jsonReq["drivesAutoAutoValue"] = localStorage.getItem("drivesAutoAutoValue");
-      jsonReq["drivesCameraAutoValue"] = localStorage.getItem("drivesCameraAutoValue");
-      jsonReq["moveInTeleopValue"] = localStorage.getItem("moveInTeleopValue");
-      jsonReq["defenseValue"] = localStorage.getItem("defenseValue");
-      jsonReq["climbsToFirstLevelValue"] = localStorage.getItem("climbsToFirstLevelValue");
-      jsonReq["climbsToSecondLevelValue"] = localStorage.getItem("climbsToSecondLevelValue");
-      jsonReq["climbsToThirdLevelValue"] = localStorage.getItem("climbsToThirdLevelValue");
-      jsonReq["assistsAlliesClimbSecondLevelValue"] = localStorage.getItem("assistsAlliesClimbSecondLevelValue");
-      jsonReq["assistsAlliesClimbThirdLevelValue"] = localStorage.getItem("assistsAlliesClimbThirdLevelValue");
-      jsonReq["pickUpHatchesFromGroundValue"] = localStorage.getItem("pickUpHatchesFromGroundValue");
-      jsonReq["pickUpCargoFromGroundValue"] = localStorage.getItem("pickUpCargoFromGroundValue");
+      jsonReq["startPosValue"] = localStorage.getItem("startPosValue");
+      jsonReq["startFuelValue"] = localStorage.getItem("startFuelValue");
+      jsonReq["moveInAutoValue"] = localStorage.getItem("hatchCargoshipAutoopValue");
+      jsonReq["spinRotationAutoValue"] = localStorage.getItem("spinRotationAutoValue");
+      jsonReq["spinPositionAutoValue"] = localStorage.getItem("spinPositionAutoValue");
+      jsonReq["spinAttAutoValue"] = localStorage.getItem("spinAttAutoValue");
+      jsonReq["scoreLowAutoValue"] = localStorage.getItem("scoreLowAutoValue");
+      jsonReq["scoreHighAutoValue"] = localStorage.getItem("scoreHighAutoValue");
+      jsonReq["scoreInnerAutoValue"] = localStorage.getItem("scoreInnerAutoValue");
+      jsonReq["fuelDropAutoValue"] = localStorage.getItem("fuelDropAutoValue");
+      jsonReq["moveInTeleValue"] = localStorage.getItem("moveInTeleValue");
+      jsonReq["spinRotationTeleValue"] = localStorage.getItem("spinRotationTeleValue");
+      jsonReq["spinPositionTeleValue"] = localStorage.getItem("spinPositionTeleValue");
+      jsonReq["spinAttTeleValue"] = localStorage.getItem("spinAttTeleValue");
+      jsonReq["scoreLowTeleValue"] = localStorage.getItem("scoreLowTeleValue");
+      jsonReq["scoreHighTeleValue"] = localStorage.getItem("scoreHighTeleValue");
+      jsonReq["scoreInnerTeleValue"] = localStorage.getItem("scoreInnerTeleValue");
+      jsonReq["fuelDropTeleValue"] = localStorage.getItem("fuelDropTeleValue");
+      jsonReq["defendValue"] = localStorage.getItem("defendValue");
+      jsonReq["fuelFromGroundValue"] = localStorage.getItem("fuelFromGroundValue");
+      jsonReq["climbValue"] = localStorage.getItem("climbValue");
+      jsonReq["attemptValue"] = localStorage.getItem("attemptValue");
+      jsonReq["keptClimbLevelValue"] = localStorage.getItem("keptClimbLevelValue");
+      jsonReq["carryRobotValue"] = localStorage.getItem("carryRobotValue");
+      jsonReq["drivesTrenchValue"] = localStorage.getItem("drivesTrenchValue");
+      jsonReq["DriverSkillValue"] = localStorage.getItem("DriverSkillValue");
+      jsonReq["RobotEffValue"] = localStorage.getItem("RobotEffValue");
+      jsonReq["RobotSpeedValue"] = localStorage.getItem("RobotSpeedValue");
       jsonReq["commentsValue"] = localStorage.getItem("commentsValue");
       xhr.send(JSON.stringify(jsonReq));
       xhr.onreadystatechange = proccessRequest;
@@ -200,47 +198,63 @@ This is the html page for Teleop during the match.
       <li id="signOut" onclick="signOut();">Sign Out</li>
     </ul>
     <ul id="postMatchList">
-      <li class="postMatchListElement">Did the robot play any defense?
-        <INPUT TYPE="radio" class="big" id="defenseYes" name="defense" onclick="switchOnClick(this.id);"><strong>Yes</strong>
-        <INPUT TYPE="radio" class="big" id="defenseNo" name="defense" onclick="switchOnClick(this.id);"><strong>No</strong></li>
-      </li>
+
       <li class="postMatchListElement">Did the Robot attempt to climb but failed?
-        <INPUT TYPE="radio" class="big" id="attemptYes" name="climbAttempt" onclick="switchOnClick(this.id);"><strong>Yes</strong>
-        <INPUT TYPE="radio" class="big" id="attemptNo" name="climbAttempt" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+        <INPUT TYPE="radio" class="big" id="attemptYes" name="attempt" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="attemptNo" name="attempt" onclick="switchOnClick(this.id);"><strong>No</strong></li>
       </li>
-      <li class="postMatchListElement">What level did the Robot reach in endgame?
-        <INPUT TYPE="radio" class="big" id="climbsToFirstLevel" name="climbsToFirstLevel" onclick="switchOnClick(this.id);"><strong>1st</strong>
-        <INPUT TYPE="radio" class="big" id="climbsToSecondLevel"  name="climbsToFirstLevel" onclick="switchOnClick(this.id);"><strong>2nd</strong>
-        <INPUT TYPE="radio" class="big" id="climbsToThirdLevel"  name="climbsToFirstLevel" onclick="switchOnClick(this.id);"><strong>3rd</strong>
-        <INPUT TYPE="radio" class="big" id="noClimb"  name="climbsToFirstLevel" onclick="switchOnClick(this.id);"><strong>None</strong>
+      <li class="postMatchListElement">Did the Robot successfully climb?
+        <INPUT TYPE="radio" class="big" id="climbYes" name="climb" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="climbNo"  name="climb" onclick="switchOnClick(this.id);"><strong>No</strong>
+      </li>
+      <li class="postMatchListElement">Did the robot lift another robot?
+        <INPUT TYPE="radio" class="big" id="carryRobotYes" name="carryRobot" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="carryRobotNo" name="carryRobot" onclick="switchOnClick(this.id);"><strong>No</strong>
+      </li>
+      <li class="postMatchListElement">Was the bar level at the end of the match?
+        <INPUT TYPE="radio" class="big" id="keptClimbLevelYes" name="keptClimbLevel" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="keptClimbLevelNo" name="keptClimbLevel" onclick="switchOnClick(this.id);"><strong>No</strong>
+      </li>
+      <li class="postMatchListElement">----------</li>
+
+      <li class="postMatchListElement">Did the robot play any defense?
+        <INPUT TYPE="radio" class="big" id="defendYes" name="defend" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="defendNo" name="defend" onclick="switchOnClick(this.id);"><strong>No</strong></li>
       </li>
 
-      <li class="postMatchListElement">Can the robot pick up hatches from the ground?
-        <INPUT TYPE="radio" class="big" id="pickUpHatchesFromGroundYes" name="pickUpHatchesFromGround" onclick="switchOnClick(this.id);"><strong>Yes</strong>
-        <INPUT TYPE="radio" class="big" id="pickUpHatchesFromGroundNo" name="pickUpHatchesFromGround" onclick="switchOnClick(this.id);"><strong>No</strong>
+      <li class="postMatchListElement">Can the robot pick up fuel from the ground?
+        <INPUT TYPE="radio" class="big" id="fuelFromGroundYes" name="fuelFromGround" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="fuelFromGroundNo" name="fuelFromGround" onclick="switchOnClick(this.id);"><strong>No</strong>
       </li>
-      <li class="postMatchListElement">Can the robot pick up cargo from the ground?
-        <INPUT TYPE="radio" class="big" id="pickUpCargoFromGroundYes" name="pickUpCargoFromGround" onclick="switchOnClick(this.id);"><strong>Yes</strong>
-        <INPUT TYPE="radio" class="big" id="pickUpCargoFromGroundNo" name="pickUpCargoFromGround" onclick="switchOnClick(this.id);"><strong>No</strong>
+
+      <li class="postMatchListElement">Can the robot drive under the trench?
+        <INPUT TYPE="radio" class="big" id="drivesTrenchYes" name="drivesTrench" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" class="big" id="drivesTrenchNo" name="drivesTrench" onclick="switchOnClick(this.id);"><strong>No</strong>
       </li>
+
+      <li class="postMatchListElement">----------</li>
+
       <li class="postMatchListElement">Driver Skill from 1-5:
         <!--this needs to be fixed-->
         <button type="button" id="DriverSkillMinus" onclick="switchOnClick(this.id);">-</button>
-        <p style="display: inline;" id="DriverSkillCounter">0</p>
+        <p style="display: inline;" id="DriverSkillCounter">1</p>
         <button type="button" id="DriverSkillPlus" onclick="switchOnClick(this.id);">+</button>
       </li>
       <li class="postMatchListElement">Robot Efficiency from 1-5:
         <!--this needs to be fixed-->
         <button type="button" id="RobotEffMinus" onclick="switchOnClick(this.id);">-</button>
-        <p style="display: inline;" id="RobotEffCounter">0</p>
+        <p style="display: inline;" id="RobotEffCounter">1</p>
         <button type="button" id="RobotEffPlus" onclick="switchOnClick(this.id);">+</button>
       </li>
       <li class="postMatchListElement">Robot Speed from 1-5:
         <!--this needs to be fixed-->
         <button type="button" id="RobotSpeedMinus" onclick="switchOnClick(this.id);">-</button>
-        <p style="display: inline;" id="RobotSpeedCounter">0</p>
+        <p style="display: inline;" id="RobotSpeedCounter">1</p>
         <button type="button" id="RobotSpeedPlus" onclick="switchOnClick(this.id);">+</button>
       </li>
+
+      <li class="postMatchListElement">----------</li>
+
     </ul>
     <p id="commentsHeader">Please write some comments about the robot. Comments must be ten characters.</p>
     <input type="text" name="comments" id="commentsField" onchange="updateTextOnType(this.id);">
