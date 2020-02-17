@@ -135,11 +135,6 @@ This is the html page for Teleop during the match.
     }
 
     function submit() {
-      if(localStorage.getItem("climbsToFirstLevel") == -1) {
-        document.getElementById("title").innerHTML = "Please ensure all questions are answered and the comments field contains at least ten characters.";
-        document.getElementById("title").style.color = "#FFD700";
-        return;
-      }
 
       var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
       var url = "http://localhost:3000/robot/addScoutingReport";
@@ -151,7 +146,7 @@ This is the html page for Teleop during the match.
       jsonReq["robotNumber"] = localStorage.getItem("robotNumber");
       jsonReq["startPosValue"] = localStorage.getItem("startPosValue");
       jsonReq["startFuelValue"] = localStorage.getItem("startFuelValue");
-      jsonReq["moveInAutoValue"] = localStorage.getItem("hatchCargoshipAutoopValue");
+      jsonReq["moveInAutoValue"] = localStorage.getItem("moveInAutoValue");
       jsonReq["spinRotationAutoValue"] = localStorage.getItem("spinRotationAutoValue");
       jsonReq["spinPositionAutoValue"] = localStorage.getItem("spinPositionAutoValue");
       jsonReq["spinAttAutoValue"] = localStorage.getItem("spinAttAutoValue");
@@ -190,7 +185,9 @@ This is the html page for Teleop during the match.
         }
       }
     }
+
     window.onload = initialization;
+
     </script>
     <ul id="navbar">
       <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
